@@ -1,0 +1,42 @@
+{
+  "name": "alexa-grammar",
+  "version": "0.0.0",
+  "description": "Utilities and framework code for building valid grammars and skill kits for Amazon's Alexa voice agent service.",
+  "homepage": "",
+  "repository": "scottbea/alexa-grammar",
+  "author": {
+    "name": "Scott Beaudreau",
+    "email": "sjbeaudreau@gmail.com",
+    "url": ""
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "keywords": [
+    "amazon",
+    "alexa",
+    "echo",
+    "grammar",
+    "builder"
+  ],
+  "devDependencies": {
+    "gulp": "^3.6.0",
+    "gulp-eslint": "^0.15.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.9.0",
+    "gulp-mocha": "^2.0.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-nsp": "^0.4.5",
+    "gulp-coveralls": "^0.1.0"
+  },
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "spoken-numbers": "0.0.0",
+    "underscore": "^1.8.3"
+  }
+}
