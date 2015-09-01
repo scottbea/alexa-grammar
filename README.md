@@ -1,4 +1,5 @@
 # alexa-grammar [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+- - -
 > Utilities and framework code for building valid grammars and skill kits for Amazon&#39;s Alexa voice agent service.
 
 
@@ -14,12 +15,27 @@ $ npm install --save alexa-grammar
 ```js
 var alexaGrammar = require('alexa-grammar');
 
-alexaGrammar('Rainbow');
+var grammarGenerator = new alexaGrammar.GrammarGenerator();
+var topics = {
+  airline: {
+    type: 'dictionary',
+    count: 100,
+    entries: [
+      { id: 'aal', values: ['aa', 'american airlines', 'american'] },
+      { id: 'dal', values: ['dl', 'delta airlines', 'delta'] },
+      { id: 'ual', values: ['ua', 'united airlines', 'united'] },
+      { id: 'asa', values: ['as', 'alaska airlines', 'alaska'] }
+    ]
+  }
+};
+var results = grammarGenerator.generateModels('Find flights from {airline} ', topics);
+
+
 ```
 
 ## License
-
-MIT © [Scott Beaudreau]()
+This code is licensed under the MIT license for [Scott Beaudreau](). For more
+information, please refer to the [LICENSE](/LICENSE) file.
 
 
 [npm-image]: https://badge.fury.io/js/alexa-grammar.svg
