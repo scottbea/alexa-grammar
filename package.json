@@ -1,6 +1,6 @@
 {
   "name": "alexa-grammar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utilities and framework code for building valid grammars and skill kits for Amazon's Alexa voice agent service.",
   "homepage": "",
   "repository": "scottbea/alexa-grammar",
