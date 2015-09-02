@@ -33,6 +33,20 @@ var results = grammarGenerator.generateModels('Find flights from {airline} ', to
 
 ```
 
+## Introduction to Alexa Skills
+Alexa, the voice service that powers Echo, provides a set of built-in abilities, or skills, that enable customers to interact with devices in a more intuitive way using voice. 
+Examples of these skills include the ability to play music, answer general questions, set an alarm or timer and more. 
+With the Alexa Skills Kit, you can easily build and add your own skills to Alexa. 
+Customers can access these new skills simply by asking Alexa a question or making a command.
+
+Developers can create their own implementations of Alexa skills. This involves building and packaging an Alexa skill as a configuration and implementing a backend service that interacts based on this definition.
+
+The configuration for an Alexa skill must include the following components to define the voice interface:
+
+An Intent Schema: A JSON structure which declares the set of intents your service can accept and process.
+A set of Sample Utterances: A structured text file that connects the intents to likely spoken phrases and containing as many representative phrases as possible.
+These inputs are entered in the Interaction Model section of an Alexa skill configuration.
+
 ## License
 This code is licensed under the MIT license for [Scott Beaudreau](). For more
 information, please refer to the [LICENSE](/LICENSE) file.

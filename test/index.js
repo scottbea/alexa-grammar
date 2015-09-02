@@ -24,9 +24,6 @@ describe('alexa-grammar', function () {
     });
   });
   describe('alexa-grammar.basic', function () {
-    it('should be able to instantiate the helper object', function () {
-      assert(grammarGenerator !== null, 'We should have a valid object');
-    });
     it('should support generating a grammar with a literal model and no topics', function () {
       var results = grammarGenerator.generateModels('Mary had a little lamb');
       assert(results.length === 1, 'There should be 1 results');
@@ -69,6 +66,22 @@ describe('alexa-grammar', function () {
     });
   });
   describe('alexa-grammar.advanced', function () {
+    it('should support generating a grammar with a single model with  two slots', function () {
+      var topics = {
+        airline: {
+          type: 'dictionary',
+          count: 100,
+          entries: [
+            { id: 'aal', values: ['aa', 'american airlines', 'american'] },
+            { id: 'dal', values: ['dl', 'delta airlines', 'delta'] }
+          ]
+        },
+        flightNumber: {type: 'number', min: 10, max: 2000, count: 3, format: 'spelled'}
+      };
+      var results = grammarGenerator.generateModels('{airline} {flightNumber}', topics);
+      //console.log(require('util').inspect(results, {showHidden: true}));
+      assert(results.length === 18, 'There should be 18 results');
+    });
     it('should support generating a grammar with a single model and multiple topic entries with multiple surface forms', function () {
       var topics = {
         airline: {
