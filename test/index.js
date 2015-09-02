@@ -3,15 +3,24 @@
 var alexaGrammar = require('../lib');
 var _ = require('underscore');
 var assert = require('assert');
-//var util = require('util');
 
 
 describe('alexa-grammar', function () {
   var grammarGenerator = null;
 
   describe('alexa-grammar.library', function () {
-    it('should have unit test!', function () {
+    it('should be able to construct the helper object', function () {
       grammarGenerator = new alexaGrammar.GrammarGenerator();
+      assert(grammarGenerator, 'There should be valid object reference');
+    });
+    it('should find basic topic/slot references in the model', function () {
+      var results = grammarGenerator.getTopicReferences('this is a model of category {category} and type {type} and version {version}');
+      assert(results.length === 3, 'There should be only 3 non-assigned slots');
+    });
+    it('should find the non-assigned topic/slot references in the model', function () {
+      var results = grammarGenerator.getTopicReferences('this is a model of category {all|category} and type {type} and version {1.2|version}');
+      //console.log(require('util').inspect(results, {showHidden: true}));
+      assert(results.length === 1, 'There should be only 1 non-assigned slot');
     });
   });
   describe('alexa-grammar.basic', function () {
@@ -128,7 +137,7 @@ describe('alexa-grammar', function () {
       ]};
 
       var results = grammarGenerator.generateModels(models.flights, topics);
-      //console.log(util.inspect(results, {showHidden: true}));
+      //console.log(require('util').inspect(results, {showHidden: true}));
       assert(results.length === 2880, 'There should be 2880 results total');
     });
     it('should support generating a grammar with 3 different number slots using sampling for each', function () {
@@ -137,9 +146,7 @@ describe('alexa-grammar', function () {
         prefix: {type: 'number', min: 100, max: 999, count: 10, format: 'digits'},
         suffix: {type: 'number', min: 1000, max: 9999, count: 100, format: 'digits'}
       };
-
       var results = grammarGenerator.generateModels('{areaCode}-{prefix}-{suffix}', topics);
-      //console.log(util.inspect(results, {showHidden: true}));
       assert(results.length > 9000, 'There should be over 9000 results (some are duplicates)');
     });
   });
