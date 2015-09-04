@@ -12,10 +12,16 @@ $ npm install --save alexa-grammar
 
 ## Usage
 
+### Example 1: Basic Usage
+```js
+var alexaGrammar = require('alexa-grammar');
+var results = alexaGrammar.compile('<public|private|internal|protected> [abstract] [<virtual|sealed>] int Compute(), topics);
+```
+
+### Example 2: Array of Models and Topic Set Usage
 ```js
 var alexaGrammar = require('alexa-grammar');
 
-var grammarGenerator = new alexaGrammar.GrammarGenerator();
 var topics = {
   airline: {
     type: 'dictionary',
@@ -28,9 +34,7 @@ var topics = {
     ]
   }
 };
-var results = grammarGenerator.generateModels('Find flights from {airline} ', topics);
-
-
+var results = alexaGrammar.compile(['Find flights [<from | on | by>] {airline}', '{airline} flights'], topics);
 ```
 
 ## Introduction to Alexa Skills
