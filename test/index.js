@@ -131,8 +131,57 @@ describe('alexa-grammar', function () {
       ]};
 
       var results = alexaGrammar.compile(models.flights, topics);
-      //console.log(require('util').inspect(results, {showHidden: true}));
       assert(results.length === 2880, 'There should be 2880 results total');
+    });
+    it('should support generating more grammar with multiple models having both dictionary and number slots with multiple topics', function () {
+      var topics = {
+        airline: {
+          type: 'dictionary',
+          count: 6,
+          random: true,
+          entries: [
+            { id: 'aal', values: ['aa', 'american airlines', 'american'] },
+            { id: 'dal', values: ['dl', 'delta airlines', 'delta'] },
+            { id: 'ual', values: ['ua', 'united airlines', 'united'] },
+            { id: 'asa', values: ['as', 'alaska airlines', 'alaska'] }
+          ]
+        },
+        flightNumber: {type: 'number', min: 24, max: 2000, count: 1, random: true, format: 'spelled'}
+      };
+
+      var models = {flights: [
+        '{airline} {flightNumber}',
+        '{airline} flight # {flightNumber}',
+        '{flightNumber} on {airline}'
+      ]};
+
+      var results = alexaGrammar.compile(models.flights, topics);
+      //console.log(require('util').inspect(results, {showHidden: true}));
+      assert(results.length === 18, 'There should be 18 results total');
+    });
+    it('should support generating a grammar with multiple models having both dictionary and number slots with multiple topics', function () {
+      var topics = {
+        airline: {
+          type: 'dictionary',
+          count: 100,
+          random: true,
+          entries: [
+            { id: 'aal', values: ['aa', 'american airlines', 'american'] },
+            { id: 'dal', values: ['dl', 'delta airlines', 'delta'] },
+            { id: 'ual', values: ['ua', 'united airlines', 'united'] },
+            { id: 'asa', values: ['as', 'alaska airlines', 'alaska'] }
+          ]
+        },
+        flightNumber: {type: 'number', min: 100, max: 2000, count: 1, random: true, format: 'digits'}
+      };
+
+      var models = {flights: [
+        '{flightNumber} on {airline}'
+      ]};
+
+      var results = alexaGrammar.compile(models.flights, topics);
+      //console.log(require('util').inspect(results, {showHidden: true}));
+      assert(results.length === 100, 'There should be 2880 results total');
     });
     it('should support generating a grammar with 3 different number slots using sampling for each', function () {
       var topics = {
@@ -151,10 +200,10 @@ describe('alexa-grammar', function () {
         ]
       };
       var results = alexaGrammar.compile(models.flights);
-      //_.each(results, function(result, n) { console.log("%s: %s", n, result); });
       assert(results.length === 19, 'There should be 19 distinct results');
     });
     it('should compile models', function () {
+      this.timeout(30000);
       var topics = {
         airline: {
           type: 'dictionary',
