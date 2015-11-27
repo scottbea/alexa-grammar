@@ -63,10 +63,10 @@ describe('alexa-grammar', function () {
       //console.log(require('util').inspect(results, {showHidden: true}));
       assert(results.length === 18, 'There should be 18 results');
     });
-    it('should support generating a grammar with a single model and multiple topic entries with multiple surface forms', function () {
+    it('should support generating a grammar with a single model with a custom slot type', function () {
       var topics = {
         airline: {
-          type: 'dictionary',
+          type: 'custom',
           count: 100,
           entries: [
             { id: 'aal', values: ['aa', 'american airlines', 'american'] },
@@ -76,8 +76,38 @@ describe('alexa-grammar', function () {
           ]
         }
       };
-      var results = alexaGrammar.compile('Find flights from {airline} ', topics);
-      assert(results.length === 12, 'There should be 12 results');
+      var results = alexaGrammar.compile('Find flights from {airline}', topics);
+      assert(results.length === 1, 'There should be 1 result');
+    });
+    it('should support generating a grammar with a single model with a mix of all slot types (including 2 custom slots)', function () {
+      var topics = {
+        airline: {
+          type: 'custom',
+          count: 100,
+          entries: [
+            { id: 'aal', values: ['aa', 'american airlines', 'american'] },
+            { id: 'dal', values: ['dl', 'delta airlines', 'delta'] },
+            { id: 'ual', values: ['ua', 'united airlines', 'united'] },
+            { id: 'asa', values: ['as', 'alaska airlines', 'alaska'] }
+          ]
+        },
+        city: {
+          type: 'dictionary',
+          entries: [
+            { id: '1', values: ['houston'] },
+            { id: '2', values: ['dallas'] }
+          ]
+        },
+        time: {
+          type: 'number',
+          min: 1,
+          max: 12,
+          count: 1,
+          format: 'spelled'
+        }
+      };
+      var results = alexaGrammar.compile('Find flights from {@airport} on {airline} to {city} leaving after {time}', topics);
+      assert(results.length === 2, 'There should be 2 result');
     });
     it('should support generating a grammar with multiple dictionary slots with some having multiple surface forms', function () {
       var topics = {
@@ -190,7 +220,7 @@ describe('alexa-grammar', function () {
         suffix: {type: 'number', min: 1000, max: 9999, count: 100, format: 'digits'}
       };
       var results = alexaGrammar.compile('{areaCode}-{prefix}-{suffix}', topics);
-      assert(results.length > 9000, 'There should be over 9000 results (some are duplicates)');
+      assert(results.length > 5000, 'There should be over 5000 results (some are duplicates)');
     });
     it('should expand models', function () {
       var models = {
